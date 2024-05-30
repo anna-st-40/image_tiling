@@ -8,7 +8,7 @@ This projects contains a Python script for reducing the number of colors in an i
 ![Original Image](demo_images/step_0.jpg)
 
 ### Step 1 - Pixelate image
-The image is pixelated by downscaling using the PIL resize function.
+The image is pixelated to 25×25 pixels by downscaling using the PIL resize function.
 ![Pixelated Image](demo_images/step_1.jpg)
 
 
