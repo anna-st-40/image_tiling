@@ -2,14 +2,15 @@ from PIL import Image
 import numpy as np
 from sklearn.cluster import KMeans
 from scipy.spatial.distance import cdist
+import itertools
+from math import inf
 
 tile_colors = [
     (255,   0,   0), # Red
     (  0,   0,   0), # Black
     (128, 128, 128), # Gray
     (255, 255, 255)  # White
-]
-
+] 
 
 def reduce_image_colors(image: Image, n_colors=4):
     """
@@ -42,23 +43,35 @@ def reduce_image_colors(image: Image, n_colors=4):
 
 def remap_colors(found_colors: list[tuple], specified_colors: list[tuple]) -> dict:
     """
-    Generates a map between the found colors and the closest specified colors.
+    Generates a map between the found colors and the closest specified colors,
+    based on the Euclidean distance between the colors.
     """
+
     # Calculate distances between each found color and each specified color
     distances = cdist(found_colors, specified_colors, metric='euclidean')
+
+    # Generate all permutations of the colors
+    items = [i for i in range(len(found_colors))]
+    permutations = itertools.permutations(items)
+    perm_map = []
+    for perm in permutations:
+        perm_map.append([(items[i], perm[i]) for i in range(len(items))])
+
+    # Calculate the sum of all distances for each permutation, and find the combination that produces the minimum
+    min_distance = [inf, None]
+    for map in perm_map:
+        total_distance = 0
+
+        for j in range(len(map)):
+            total_distance += distances[map[j][0]][map[j][1]]
+        
+        if total_distance < min_distance[0]:
+            min_distance = [total_distance, map]
+
+    # Create a dictionary mapping the found colors to the specified colors
+    final_mapping = {found_colors[i[0]] : specified_colors[i[1]] for i in min_distance[1]}
     
-    # Find the closest found color for each specified color
-    closest_indices = np.argmin(distances, axis=0)
-
-    # Map the found colors to specified colors
-    final_mapping = {}
-    j = 0
-    for i in closest_indices:
-        final_mapping[found_colors[i]] = specified_colors[j]
-        j += 1
-
-    # Return the final mapping
-    return final_mapping
+    return final_mapping   
 
 def apply_color_remapping(image: Image, color_mapping: dict) -> Image:
     """
@@ -99,4 +112,4 @@ def tile_image(image_path, tile_colors, pixel_dimensions=50):
     # Show the image
     upscaled.show()
 
-tile_image("test_image_1.jpg", tile_colors, 25)
+tile_image("test_image_2.jpg", tile_colors, 25)
