@@ -12,7 +12,7 @@ tile_colors = [
     (255, 255, 255)  # White
 ] 
 
-def reduce_image_colors(image: Image, n_colors=4):
+def reduce_image_colors(image: Image, n_colors=4) -> tuple[Image, list[tuple]]: # type: ignore
     """
     Reduces the number of colors in an image to n_colors.
     This method uses KMeans clustering to find the dominant colors in the image.
@@ -92,7 +92,7 @@ def apply_color_remapping(image: Image, color_mapping: dict) -> Image:
     return new_image
 
 
-def tile_image(image_path, tile_colors, pixel_dimensions=50):
+def tile_image(image_path, tile_colors=tile_colors, pixel_dimensions=50) -> Image:
     # Open the image
     org_image = Image.open(image_path)
 
@@ -111,5 +111,7 @@ def tile_image(image_path, tile_colors, pixel_dimensions=50):
 
     # Show the image
     upscaled.show()
+    return upscaled
 
-tile_image("test_image_2.jpg", tile_colors, 25)
+if __name__ == "__main__":
+    tile_image("test_image_1.jpg", tile_colors, 25)
