@@ -21,7 +21,7 @@ The four found colors are remapped to a set of predefined colors - red, white, b
 <br> This is accomplished by calculating the Euclidean distances in RGB space between the found and predefined colors.
 ![Remapped Colors](demo_images/step_3.jpg)
 
-## To Run
+## How to Run
 
 ### Option 1: Run locally
 To run the Python script and generate your own image locally, simply use `server\pixelator.py`. Make sure to put your own parameters under 
@@ -39,3 +39,17 @@ scikit-learn==1.6.1
 scipy==1.15.1
 threadpoolctl==3.5.0
 ```
+
+### Option 2: API
+You can also send an API request to [https://image-tiling-api.onrender.com/](https://image-tiling-api.onrender.com/), which runs the same Python file on a Flask server. It deletes your image as soon as you receive it.
+
+**Request**
+- **Content-Type:** `multipart/form-data`
+- **Body Parameters:**
+    - `image` (required): The image file to be processed.
+    - `tile_colors` (optional): A JSON list of hex color codes to use for the tiles. If not provided, the default colors are used.
+    - `pixel_dimensions` (optional): The side length of the final dimension in tiles. Default value is 50.
+
+**Response**
+
+If the request is successful, you will receive the processed image in PNG format.
