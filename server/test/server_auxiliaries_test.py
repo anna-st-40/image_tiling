@@ -32,6 +32,11 @@ class TestValidateTileColors(unittest.TestCase):
         tile_colors = '["#FF0000", "#00FF00", "#0000FF"]'
         result = validate_tile_colors(tile_colors)
         self.assertEqual(result, ["#FF0000", "#00FF00", "#0000FF"])
+        
+    def test_valid_tile_colors_lowercase(self):
+        tile_colors = '["#ff0000", "#00ff00", "#0000ff"]'
+        result = validate_tile_colors(tile_colors)
+        self.assertEqual(result, ["#ff0000", "#00ff00", "#0000ff"])
 
     def test_valid_short_hex_codes(self):
         tile_colors = '["#F00", "#0F0", "#00F"]'

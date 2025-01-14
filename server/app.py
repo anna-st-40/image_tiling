@@ -100,7 +100,7 @@ def validate_tile_colors(tile_colors):
                    and len(color) in [7, 4] for color in colors):
             raise ValueError("Invalid hex color format")
         for color in colors:
-            if not all(char in "0123456789ABCDEF" for char in color[1:]):
+            if not all(char in "0123456789ABCDEFabcdef" for char in color[1:]):
                 raise ValueError("Invalid hex color format")
         return colors
     except (json.JSONDecodeError, ValueError) as exc:
