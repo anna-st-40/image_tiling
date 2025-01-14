@@ -5,6 +5,8 @@ const tiledContainer = document.getElementById('image-display-2');
 const previewImage = document.getElementById('image-preview');
 const tiledImage = document.getElementById('image-tiled');
 const generateButton = document.getElementById('generate-image');
+const colors = document.querySelectorAll('.color');
+const pixelSize = document.getElementById('pixel-size-value');
 
 // Utility function to prevent default browser behavior
 function preventDefaults(e) {
@@ -86,8 +88,8 @@ generateButton.addEventListener("click", async () => {
   const formData = new FormData();
   formData.append("image", imageFile)
 
-  const tileColors = JSON.stringify(["#FFFFFF", "#000000", "#A52A2A", "#008000"]);
-  const pixelDimensions = 25;
+  const tileColors = JSON.stringify(Array.from(colors, color => color.value));
+  const pixelDimensions = parseInt(pixelSize.textContent, 10);
   formData.append("tile_colors", tileColors);
   formData.append("pixel_dimensions", pixelDimensions);
 
