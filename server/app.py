@@ -7,12 +7,14 @@ import sys
 from io import BytesIO
 
 from flask import Flask, request, send_file
+from flask_cors import CORS
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from server.pixelator import tile_image
 
 
 app = Flask(__name__)
+CORS(app)
 UPLOAD_FOLDER = "./uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
