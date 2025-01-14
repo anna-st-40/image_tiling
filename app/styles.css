@@ -1,0 +1,130 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.container {
+    text-align: center;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #ede8df;
+    border-radius: 8px;
+    width: 1000px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+}
+
+.subcontainer {
+    width: 50%;
+    padding: 10px;
+}
+
+section {
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 15px;
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#image-upload {
+    background-color: #F8F8F8;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed #ddd;
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+#image-upload:hover {
+    background-color: #EFF7FF;
+    border-color: #027AFF;
+}
+
+#upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+button {
+    background-color: #027AFF;
+    border: none;
+    color: white;
+    padding: .625rem 1.25rem;
+    text-align: center;
+    font-size: .875rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    cursor: pointer;
+    border-radius: .5rem;
+    transition: 0.2s ease-in-out;
+
+}
+
+button:hover {
+    background-color: #0274F2;
+}
+
+#upload-label span {
+    font-size: .875rem;
+    color: #5C5C5E;
+}
+
+#image-preview {
+    max-width: 100%;
+}
+
+#image-tiled {
+    max-width: 100%;
+}
+
+.color-selection, .pixelation-control {
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.instruction-label {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.color {
+    width: 60px;
+    height: 66px;
+    margin: 0 5px;
+    border: 2px solid #ddd;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+}
+
+.color:hover {
+    border-color: #333;
+}

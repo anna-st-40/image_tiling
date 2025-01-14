@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Tiling</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="image-container subcontainer">
+
+            <section id="image-upload">
+                <div id="upload-label">
+                    <button>Upload image</button>
+                    <span>or drop photos here</span>
+                </div>
+            </section>
+
+            <input type="file" id="file-input" hidden>
+
+            <section class="image-display" id="image-display-1" style="display: none;">
+                <img id="image-preview" alt="Image Preview">
+            </section>
+
+            <section class="image-display" id="image-display-2" style="display: none;">
+                <img id="image-tiled" alt="Tiled Image Preview">
+            </section>
+
+
+        </div>
+
+        <div class="controls-container subcontainer">
+
+            <!-- Color Selection -->
+            <section class="color-selection">
+                <p class="instruction-label">Select Colors</p>
+                <div>
+                    <input id="color1" class="color" type="color" value="#ff0000">
+                    <input id="color2" class="color" type="color" value="#000000">
+                    <input id="color3" class="color" type="color" value="#808080">
+                    <input id="color4" class="color" type="color" value="#ffffff">
+                </div>
+            </section>
+
+            <!-- Pixelation Control -->
+            <section class="pixelation-control">
+                <label for="pixel-size" class="instruction-label">Select Grid Size</label>
+                <input type="range" id="pixel-size" value="50" min="5" max="250" step="5"
+                    oninput="document.getElementById('pixel-size-value').textContent = this.value;">
+                <span id="pixel-size-value">50</span>
+            </section>
+
+            <button id="generate-image">Generate Tiled Image</button>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
