@@ -127,3 +127,17 @@ button:hover {
 .color:hover {
     border-color: #333;
 }
+
+@media (max-width: 715px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .subcontainer {
+        width: 100%;
+    }
+
+    #image-upload {
+        height: 300px;
+    }
+}
