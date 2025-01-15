@@ -92,6 +92,13 @@ generateButton.addEventListener("click", async () => {
   formData.append("tile_colors", tileColors);
   formData.append("pixel_dimensions", pixelDimensions);
 
+  // Update the button text and style to indicate processing
+  generateButton.innerHTML = "Generating...";
+  generateButton.style.cursor = "wait";
+  generateButton.addEventListener("mouseover", () => {
+    generateButton.style.backgroundColor = "#027AFF";
+  });
+
   try {
     // Send the POST request using fetch
     const response = await fetch(apiURL, {
@@ -111,6 +118,7 @@ generateButton.addEventListener("click", async () => {
       tiledImage.src = processedImageUrl;
       tiledContainer.style.display = 'block';
       
+      generateButton.innerHTML = "Generate Tiled Image";
       console.log("Image processed successfully.");
     } else {
       const error = await response.json();
@@ -119,72 +127,6 @@ generateButton.addEventListener("click", async () => {
     }
   } catch (error) {
     console.error("Error:", error);
-    // alert("An unexpected error occurred.");
+    alert("An unexpected error occurred.");
   }
 });
-
-// Get the file input element and the button
-
-// // Event listener for when the user clicks the 'Generate Image' button
-// generateButton.addEventListener("click", function () {
-//     // Get the selected file from the input
-//     const imageFile = fileInput.files[0];
-
-//     if (imageFile) {
-//         // Get the color values from the color inputs
-//         const tileColors = [
-//             document.getElementById("color1").value,
-//             document.getElementById("color2").value,
-//             document.getElementById("color3").value,
-//             document.getElementById("color4").value
-//         ];
-
-//         // Get the pixel dimensions from the 'pixel-size-value' element
-//         const pixelDimensions = parseInt(document.getElementById('pixel-size-value').textContent, 10);
-
-//         // Create a FormData object to hold the image file
-//         const formData = new FormData();
-
-//         // Add the image file to the FormData object
-//         formData.append("image", imageFile);
-
-//         // Add the optional parameters to the FormData object
-//         formData.append("tile_colors", JSON.stringify(tileColors));
-//         formData.append("pixel_dimensions", pixelDimensions);
-
-//         // Send the POST request using fetch
-//         fetch(url, {
-//             method: "POST",
-//             body: formData
-//         })
-//             .then(response => response.blob())  // Handle the response as a Blob (image)
-//             .then(blob => {
-//                 if (blob.size > 0) {
-//                     // Create an object URL for the Blob to be used as the image source
-//                     const imageURL = URL.createObjectURL(blob);
-
-//                     // Create a new image element
-//                     const image = new Image();
-//                     image.src = imageURL;
-
-//                     // Wait for the image to load, then draw it on the canvas
-//                     image.onload = function () {
-//                         // Set the canvas size to match the image size
-//                         canvas.width = image.width;
-//                         canvas.height = image.height;
-
-//                         // Draw the image onto the canvas
-//                         ctx.drawImage(image, 0, 0);
-//                         console.log("Image processed and displayed on the canvas.");
-//                     };
-//                 } else {
-//                     console.log("Error: Image processing failed.");
-//                 }
-//             })
-//             .catch(error => {
-//                 console.log("Error:", error);
-//             });
-//     } else {
-//         console.log("No file selected.");
-//     }
-// });
