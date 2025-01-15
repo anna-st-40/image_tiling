@@ -23,7 +23,10 @@ The four found colors are remapped to a set of predefined colors - red, white, b
 
 ## How to Run
 
-### Option 1: Run locally
+### Option 1 (easiest): Web Interface
+Go to [https://anna-st-40.github.io/image_tiling/](https://anna-st-40.github.io/image_tiling/) to use the web interface for this project.
+
+### Option 2: Run locally
 To run the Python script and generate your own image locally, simply use `server\pixelator.py`. Make sure to put your own parameters under 
 ```
 if __name__ == "__main__":
@@ -40,7 +43,7 @@ scipy==1.15.1
 threadpoolctl==3.5.0
 ```
 
-### Option 2: API
+### Option 3: Call API
 You can also send an API request to [https://image-tiling-api.onrender.com/](https://image-tiling-api.onrender.com/), which runs the same Python file on a Flask server. It deletes your image as soon as you receive it.
 
 **Request**
