@@ -4,7 +4,13 @@ const previewContainer = document.getElementById('image-display-1');
 const tiledContainer = document.getElementById('image-display-2');
 const previewImage = document.getElementById('image-preview');
 const tiledImage = document.getElementById('image-tiled');
+
 const generateButton = document.getElementById('generate-image');
+const downloadButton = document.getElementById('download-image');
+const resetButton = document.getElementById('reset-image');
+
+const downloadLink = document.getElementById('download-link');
+
 const colors = document.querySelectorAll('.color');
 const pixelSize = document.getElementById('pixel-size-value');
 
@@ -95,9 +101,10 @@ generateButton.addEventListener("click", async () => {
   // Update the button text and style to indicate processing
   generateButton.innerHTML = "Generating...";
   generateButton.style.cursor = "wait";
-  generateButton.addEventListener("mouseover", () => {
+  generateButton.addEventListener("mouseover", disableHover);
+  function disableHover() {
     generateButton.style.backgroundColor = "#027AFF";
-  });
+  }
 
   try {
     // Send the POST request using fetch
@@ -118,7 +125,13 @@ generateButton.addEventListener("click", async () => {
       tiledImage.src = processedImageUrl;
       tiledContainer.style.display = 'block';
       
-      generateButton.innerHTML = "Generate Tiled Image";
+      // Update buttons and log success
+      generateButton.innerHTML = "Regenerate Image";
+      generateButton.style.cursor = "pointer";
+      generateButton.removeEventListener("mouseover", disableHover);
+      downloadButton.style.display = 'inline-block';
+      resetButton.style.display = 'inline-block';
+
       console.log("Image processed successfully.");
     } else {
       const error = await response.json();
@@ -129,4 +142,23 @@ generateButton.addEventListener("click", async () => {
     console.error("Error:", error);
     alert("An unexpected error occurred.");
   }
+});
+
+// Event listener for the Download" button click
+downloadButton.addEventListener("click", () => {
+  downloadLink.href = tiledImage.src;
+  downloadLink.click();
+});
+
+// Event listener for the "Reset" button click
+resetButton.addEventListener("click", () => {
+  uploadArea.style.display = 'flex';
+  previewContainer.style.display = 'none';
+  tiledContainer.style.display = 'none';
+  fileInput.value = '';
+  tiledImage.src = '';
+  generateButton.innerHTML = "Generate Image";
+  generateButton.style.cursor = "pointer";
+  downloadButton.style.display = 'none';
+  resetButton.style.display = 'none';
 });
