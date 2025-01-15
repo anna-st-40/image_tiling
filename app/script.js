@@ -28,7 +28,6 @@ fileInput.addEventListener('change', () => {
   const file = fileInput.files[0];
   if (file) {
     handleFile(file);
-    generateButton.style.display = 'block';
   }
 });
 
