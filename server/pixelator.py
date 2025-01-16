@@ -1,4 +1,7 @@
 # pylint: disable=missing-module-docstring
+# pylint: disable=no-member
+# pylint: disable=protected-access
+
 import itertools
 from math import inf
 
@@ -133,6 +136,8 @@ def tile_image(image_path: str,
     """
     # Open the image
     org_image = Image.open(image_path)
+    exif_data = org_image._getexif()
+    orientation = exif_data.get(274) if exif_data else None
 
     # Pixelate (downscale) the image
     pixelated = org_image.resize((pixel_dimensions, pixel_dimensions))
@@ -148,9 +153,17 @@ def tile_image(image_path: str,
     # Upscale the image back
     upscaled = remapped.resize(org_image.size, Image.Resampling.NEAREST)
 
+    # Rotate the image if necessary
+    if orientation == 3:
+        upscaled = upscaled.transpose(Image.ROTATE_180)
+    elif orientation == 6:
+        upscaled = upscaled.transpose(Image.ROTATE_270)
+    elif orientation == 8:
+        upscaled = upscaled.transpose(Image.ROTATE_90)
+
     # upscaled.show()
     return upscaled
 
 
 if __name__ == "__main__":
-    tile_image("test_image_1.jpg", default_tile_colors, 25)
+    tile_image("test_image_2.jpg", default_tile_colors, 200)
