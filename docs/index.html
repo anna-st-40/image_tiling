@@ -14,7 +14,7 @@
 
             <section id="image-upload">
                 <div id="upload-label">
-                    <button>Upload image</button>
+                    <button type="button">Upload image</button>
                     <span>or drop photos here</span>
                 </div>
             </section>
@@ -22,11 +22,11 @@
             <input type="file" id="file-input" accept="image/*" hidden>
 
             <section class="image-display" id="image-display-1" style="display: none;">
-                <img id="image-preview" alt="Image Preview">
+                <img src="/" id="image-preview" alt="Image Preview">
             </section>
 
             <section class="image-display" id="image-display-2" style="display: none;">
-                <img id="image-tiled" alt="Tiled Image Preview">
+                <img src="/" id="image-tiled" alt="Tiled Image Preview">
             </section>
 
 
@@ -55,14 +55,14 @@
 
             <!-- Buttons -->
             <div class="buttons">
-                <button id="generate-image">Generate Tiled Image</button>
-                <button id="download-image" style="display: none;">Download Image</button>
-                <button id="reset-image" style="display: none;">Reset</button>
+                <button id="generate-image" type="button">Generate Tiled Image</button>
+                <button id="download-image" type="button" style="display: none;">Download Image</button>
+                <button id="reset-image" type="button" style="display: none;">Reset</button>
             </div>
 
             <!-- Hidden stuff -->
             <div style="display: none;">
-                <a id="download-link" download="tiled_image"></a>
+                <a id="download-link" download="tiled_image" href=""></a>
             </div>
         </div>
     </div>
