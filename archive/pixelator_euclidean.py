@@ -12,6 +12,7 @@ and this idea was scrapped due to the resulting image being ugly.
 from PIL import Image, ImageEnhance
 import numpy as np
 
+
 def find_closest_color(pixel: list, colors: list[list]):
     """
     Find the closest color from the predefined colors using Euclidean distance.
@@ -21,6 +22,7 @@ def find_closest_color(pixel: list, colors: list[list]):
     closest_color_index = np.argmin(distances)
     return colors[closest_color_index]
 
+
 def increase_saturation(image, factor=3):
     """
     Increase the saturation of an image by a given factor.
@@ -29,11 +31,12 @@ def increase_saturation(image, factor=3):
     enhanced_image = enhancer.enhance(factor)
     return enhanced_image
 
+
 def reduce_image_to_specified_colors(image: Image, specified_colors: list[list]):
     """
     Reduce the image colors to the specified four colors.
     """
-    image = image.convert('RGB')
+    image = image.convert("RGB")
 
     # Increase saturation
     image = increase_saturation(image)
@@ -41,44 +44,48 @@ def reduce_image_to_specified_colors(image: Image, specified_colors: list[list])
     # Convert image data to a numpy array
     image_data = np.array(image)
     original_shape = image_data.shape
-    
+
     # Flatten the image array for easier processing
     flattened_image_data = image_data.reshape(-1, 3)
 
     # Map each pixel to the closest specified color
-    reduced_colors_data = np.array([find_closest_color(pixel, specified_colors) for pixel in flattened_image_data])
+    reduced_colors_data = np.array(
+        [find_closest_color(pixel, specified_colors) for pixel in flattened_image_data]
+    )
 
     # Reshape the reduced colors data to the original image shape
     reduced_image_data = reduced_colors_data.reshape(original_shape)
 
     # Create a new image from the reduced color data
-    new_image = Image.fromarray(reduced_image_data.astype('uint8'))
+    new_image = Image.fromarray(reduced_image_data.astype("uint8"))
 
     # Return the new image
     return new_image
 
-def tile_image(image_path, specified_colors:list[list], pixel_dimensions=50):
-    
+
+def tile_image(image_path, specified_colors: list[list], pixel_dimensions=50):
+
     # Open the image
     org_image = Image.open(image_path)
 
     # Pixelate (downscale) the image
-    pixelated = org_image.resize((pixel_dimensions,pixel_dimensions))
-    
+    pixelated = org_image.resize((pixel_dimensions, pixel_dimensions))
+
     # Reduce image colors
     reduced = reduce_image_to_specified_colors(pixelated, specified_colors)
 
     # Upscale the image back
-    upscaled = reduced.resize(org_image.size,Image.NEAREST)
+    upscaled = reduced.resize(org_image.size, Image.NEAREST)
 
     # Show the image
     upscaled.show()
 
+
 specified_colors = [
-    [255, 0, 0],       # Red
-    [0, 0, 0],         # Black
-    [128, 128, 128],   # Gray
-    [255, 255, 255]    # White
+    [255, 0, 0],  # Red
+    [0, 0, 0],  # Black
+    [128, 128, 128],  # Gray
+    [255, 255, 255],  # White
 ]
 
-tile_image('test_image_1.jpg', specified_colors, pixel_dimensions=50)
+tile_image("test_image_1.jpg", specified_colors, pixel_dimensions=50)

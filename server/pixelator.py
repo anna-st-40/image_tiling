@@ -11,15 +11,16 @@ from scipy.spatial.distance import cdist
 from sklearn.cluster import KMeans
 
 default_tile_colors = (
-    (255,   0,   0),  # Red
-    (0,   0,   0),  # Black
+    (255, 0, 0),  # Red
+    (0, 0, 0),  # Black
     (128, 128, 128),  # Gray
-    (255, 255, 255)  # White
+    (255, 255, 255),  # White
 )
 
 
-def reduce_image_colors(image: Image,
-                        n_colors=4) -> tuple[Image, list[tuple]]:  # type: ignore
+def reduce_image_colors(
+    image: Image, n_colors=4
+) -> tuple[Image, list[tuple]]:  # type: ignore
     """Reduces the number of colors in an image to n_colors.
 
     This method uses KMeans clustering to find the dominant colors in the image.
@@ -33,7 +34,7 @@ def reduce_image_colors(image: Image,
     """
 
     # Convert image data to a numpy array
-    org_image = image.convert('RGB')
+    org_image = image.convert("RGB")
     image_data = np.array(org_image)
     original_shape = image_data.shape
     pixels = image_data.reshape(-1, 3)
@@ -48,10 +49,10 @@ def reduce_image_colors(image: Image,
     new_image_data = new_colors[labels].reshape(original_shape)
 
     # Create a new image from the reduced color data
-    new_image = Image.fromarray(new_image_data.astype('uint8'))
+    new_image = Image.fromarray(new_image_data.astype("uint8"))
 
     # Return the image
-    return (new_image, [tuple(l) for l in new_colors.tolist()])
+    return (new_image, [tuple(color) for color in new_colors.tolist()])
 
 
 def remap_colors(found_colors: list[tuple], specified_colors: list[tuple]) -> dict:
@@ -67,7 +68,7 @@ def remap_colors(found_colors: list[tuple], specified_colors: list[tuple]) -> di
     """
 
     # Calculate distances between each found color and each specified color
-    distances = cdist(found_colors, specified_colors, metric='euclidean')
+    distances = cdist(found_colors, specified_colors, metric="euclidean")
 
     # Generate all permutations of the colors
     items = list(range(len(found_colors)))
@@ -90,7 +91,8 @@ def remap_colors(found_colors: list[tuple], specified_colors: list[tuple]) -> di
 
     # Create a dictionary mapping the found colors to the specified colors
     final_mapping = {
-        found_colors[i[0]]: specified_colors[i[1]] for i in min_distance[1]}
+        found_colors[i[0]]: specified_colors[i[1]] for i in min_distance[1]
+    }
 
     return final_mapping
 
@@ -115,14 +117,16 @@ def apply_color_remapping(image: Image, color_mapping: dict) -> Image:
     new_image_data = new_pixels.reshape(original_shape)
 
     # Create a new image from the mapped color data
-    new_image = Image.fromarray(new_image_data.astype('uint8'))
+    new_image = Image.fromarray(new_image_data.astype("uint8"))
 
     return new_image
 
 
-def tile_image(image_path: str,
-               tile_colors: tuple[tuple[int, int, int]] = default_tile_colors,
-               pixel_dimensions=50) -> Image:
+def tile_image(
+    image_path: str,
+    tile_colors: tuple[tuple[int, int, int]] = default_tile_colors,
+    pixel_dimensions=50,
+) -> Image:
     """Pixelates and tiles an image using a specified set of colors.
 
     Args:
@@ -143,8 +147,7 @@ def tile_image(image_path: str,
     pixelated = org_image.resize((pixel_dimensions, pixel_dimensions))
 
     # Reduce image colors
-    reduced, found_colors = reduce_image_colors(
-        pixelated, n_colors=len(tile_colors))
+    reduced, found_colors = reduce_image_colors(pixelated, n_colors=len(tile_colors))
 
     # Remap image colors
     color_map = remap_colors(found_colors, tile_colors)

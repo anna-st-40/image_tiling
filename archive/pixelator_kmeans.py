@@ -13,14 +13,15 @@ from PIL import Image
 import numpy as np
 from sklearn.cluster import KMeans
 
+
 def reduce_image_colors(image: Image, n_colors=4) -> Image:
     """
     Reduces the number of colors in an image to n_colors.
     This method uses KMeans clustering to find the dominant colors in the image.
     """
-    
+
     # Convert image data to a numpy array
-    org_image = image.convert('RGB')
+    org_image = image.convert("RGB")
     image_data = np.array(org_image)
     original_shape = image_data.shape
     pixels = image_data.reshape(-1, 3)
@@ -35,23 +36,24 @@ def reduce_image_colors(image: Image, n_colors=4) -> Image:
     new_image_data = new_colors[labels].reshape(original_shape)
 
     # Create a new image from the reduced color data
-    new_image = Image.fromarray(new_image_data.astype('uint8'))
+    new_image = Image.fromarray(new_image_data.astype("uint8"))
 
     # Return the image
     return new_image
+
 
 def tile_image(image_path, pixel_dimensions=50, n_colors=4):
     # Open the image
     org_image = Image.open(image_path)
 
     # Pixelate (downscale) the image
-    pixelated = org_image.resize((pixel_dimensions,pixel_dimensions))
-    
+    pixelated = org_image.resize((pixel_dimensions, pixel_dimensions))
+
     # Reduce image colors
     reduced = reduce_image_colors(pixelated, n_colors)
 
     # Upscale the image back
-    upscaled = reduced.resize(org_image.size,Image.NEAREST)
+    upscaled = reduced.resize(org_image.size, Image.NEAREST)
 
     # Show the image
     upscaled.show()
@@ -61,5 +63,4 @@ def tile_image(image_path, pixel_dimensions=50, n_colors=4):
     # print(f"Saved reduced color image to {output_path}")
 
 
-
-tile_image('test_image_2.jpg', 50)
+tile_image("test_image_2.jpg", 50)

@@ -28,7 +28,7 @@ class AppTestCase(unittest.TestCase):
                 data={
                     "image": (BytesIO(image_file.read()), "test_image_1.jpg"),
                     "tile_colors": '["#FFFFFF", "#000000", "#A52A2A", "#008000"]',
-                    "pixel_dimensions": 25
+                    "pixel_dimensions": 25,
                 },
                 content_type="multipart/form-data",
             )
@@ -42,9 +42,9 @@ class AppTestCase(unittest.TestCase):
             "/",
             data={
                 "tile_colors": '["#FFFFFF", "#000000", "#A52A2A", "#008000"]',
-                "pixel_dimensions": 25
+                "pixel_dimensions": 25,
             },
-            content_type="multipart/form-data"
+            content_type="multipart/form-data",
         )
 
         self.assertEqual(response.status_code, 400)
@@ -63,14 +63,15 @@ class AppTestCase(unittest.TestCase):
                 data={
                     "image": (BytesIO(image_file.read()), "test_image_1.jpg"),
                     "tile_colors": '["#FFGGFF", "#UU0000", "#A52A2A", "#008000"]',
-                    "pixel_dimensions": 25
+                    "pixel_dimensions": 25,
                 },
                 content_type="multipart/form-data",
             )
 
         self.assertEqual(response.status_code, 400)
-        self.assertIn("tile_colors must be a valid JSON list",
-                      response.json["error"])
+        self.assertIn(  # codespell:ignore
+            "tile_colors must be a valid JSON list", response.json["error"]
+        )
 
     def test_process_image_missing_optional_params(self):
         """Test the route when optional parameters are not provided."""
